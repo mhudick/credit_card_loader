@@ -1,4 +1,5 @@
-require 'luhn-ruby'
+require 'rubygems'
+require 'luhn'
 require 'csv'
 class Uploader
 
@@ -15,10 +16,10 @@ class Uploader
       p "file failed to open or read"
     end
     CSV.foreach(text, {headers: false, col_sep: "\t"}) do |r|
-       string = r
-       array = string.split
-       customer = @customers
-       customer."#{array[0]}"(array[1],array[2],array[3])
+      string = r
+      array = string.split
+      customer = @customers
+      customer."#{array[0]}"(array[1],array[2],array[3])
     end
   end
 
