@@ -11,8 +11,8 @@ instructions:
   - you will call in the terminal ruby account.rb "foo.bar" where foo is the file name and bar is the extension.
   - I use the text file test.txt
   - A summary will be written to the file data.text in the application directory.  The summary includes the account holders name and their balance.
-  
-Methods to my madness
+
+Methods to my madness: 
 I chose to do this project in Ruby because the problem lends itself well to hashes.
 Ruby handles hashes very well and it essentially our bread and butter data structure.  
 Ruby also has a very robust open source library.  There are many gems that add functionality
