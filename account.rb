@@ -3,24 +3,31 @@ require 'luhn'
 require 'csv'
 class Account
   def importer(account)
-    array = []
-   filename = ARGV.first
-   text = open(filename)
+    filename = ARGV.first
+    text = open(filename)
     CSV.foreach(text, {headers: false, col_sep: "\t"}) do |r|
-     string = r[0]
-     str_array = string.split(" ").map(&:to_s)
-     if str_array[0] == "Add"
-       add(account, str_array[1], str_array[2].to_i, str_array[3].delete("$").to_i)
-     elsif str_array[0] == "Charge"
-       charge(account, str_array[1], str_array[2].delete("$").to_i)
-     elsif str_array[0] == "Credit"
-       credit(account, str_array[1], str_array[2].delete("$").to_i)
-     else
-       "there was an error in submission"
-     end
-   end
-   write_to_file(account)
-    print(account)
+     operate(r, account)
+    end
+    export(account)
+  end
+
+  def export(account)
+    write_to_file(account)
+    print_to_screen(account)
+  end
+
+  def operate(r, account)
+    string = r[0]
+    str_array = string.split(" ").map(&:to_s)
+    if str_array[0] == "Add"
+      add(account, str_array[1], str_array[2].to_i, str_array[3].delete("$").to_i)
+    elsif str_array[0] == "Charge"
+      charge(account, str_array[1], str_array[2].delete("$").to_i)
+    elsif str_array[0] == "Credit"
+      credit(account, str_array[1], str_array[2].delete("$").to_i)
+    else
+      "there was an error in submission"
+    end
   end
 
   def add(account, name, number, limit)
@@ -52,7 +59,7 @@ class Account
     Luhn.valid? number
   end
 
-  def print(account)
+  def print_to_screen(account)
     account.sort.to_h.each do |k , v|
       unless v == "error"
         puts k.to_s + ':' + v[0].to_s
