@@ -8,9 +8,10 @@ instructions:
 -You will need to install the gem ruby-luhn
   - gem install luhn-ruby, if you are not using RVM use sudo gem install luhn-ruby
   - bundle install
-  -You will call in the terminal ruby uploader.rb "foo.bar" where foo is the file name and bar is the extension.
-  -I use the text file test.txt
-  -A summary will be written to the file data.txt in the application.  The summary includes the account holders name and their balance.
+  - you will call in the terminal ruby account.rb "foo.bar" where foo is the file name and bar is the extension.
+  - I use the text file test.txt
+  - A summary will be written to the file data.text in the application directory.  The summary includes the account holders name and their balance.
+  
 Methods to my madness
 I chose to do this project in Ruby because the problem lends itself well to hashes.
 Ruby handles hashes very well and it essentially our bread and butter data structure.  
