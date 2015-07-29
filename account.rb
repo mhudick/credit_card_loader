@@ -2,7 +2,7 @@ require 'rubygems'
 require 'luhn'
 require 'csv'
 
-  account = Hash.new
+  account = Hash.new{|h,k| h[k] = []}
 
   def importer(account)
     array = []
@@ -21,12 +21,14 @@ require 'csv'
        "there was an error in submission"
      end
    end
+   write_to_file(account)
     print(account)
   end
 
-  def add(account, name, number, value)
+  def add(account, name, number, limit)
     if luhn_check(number)
-      account[name] = 0
+      account[name] << 0
+      account[name] << limit
     else
       account[name] = "error"
     end
@@ -34,8 +36,8 @@ require 'csv'
 
   def charge(account,name, value)
     unless account[name] == "error"
-      if account.has_key?(name)
-        account[name] += value
+      if account.has_key?(name) && account[name][0] + value <= account[name][1]
+        account[name][0] += value
       end
     end
   end
@@ -43,7 +45,7 @@ require 'csv'
   def credit(account,name, value)
     unless account[name] == "error"
       if account.has_key?(name)
-        account[name] -= value
+        account[name][0] -= value
       end
     end
   end
@@ -52,10 +54,23 @@ require 'csv'
     Luhn.valid? number
   end
 
+  def sorter(account)
+    account.sort
+  end
+
   def print(account)
+    sorter(account)
     account.each do |k , v|
-      puts k.to_s + ':' + v.to_s
+      unless v == "error"
+        puts k.to_s + ':' + v[0].to_s
+      else
+        puts k.to_s + ':' + v.to_s
+      end
     end
+  end
+
+  def write_to_file(account)
+    
   end
 
   importer(account)
