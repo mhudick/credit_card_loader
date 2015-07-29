@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'luhn'
 require 'csv'
-
   account = Hash.new{|h,k| h[k] = []}
 
   def importer(account)
@@ -54,13 +53,8 @@ require 'csv'
     Luhn.valid? number
   end
 
-  def sorter(account)
-    account.sort
-  end
-
   def print(account)
-    sorter(account)
-    account.each do |k , v|
+    account.sort.to_h.each do |k , v|
       unless v == "error"
         puts k.to_s + ':' + v[0].to_s
       else
@@ -70,7 +64,15 @@ require 'csv'
   end
 
   def write_to_file(account)
-    
+    file = open("data.txt", 'w')
+    account.sort.to_h.each do |k , v|
+      unless v == "error"
+        file.write(k.to_s + ':' + v[0].to_s + "\n")
+      else
+        file.write(k.to_s + ':' + v.to_s + "\n")
+      end
+    end
+    file.close
   end
 
-  importer(account)
+importer(account)
