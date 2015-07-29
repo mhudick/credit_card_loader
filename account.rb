@@ -1,8 +1,7 @@
 require 'rubygems'
 require 'luhn'
 require 'csv'
-  account = Hash.new{|h,k| h[k] = []}
-
+class Account
   def importer(account)
     array = []
    filename = ARGV.first
@@ -74,5 +73,12 @@ require 'csv'
     end
     file.close
   end
+end
 
-importer(account)
+def start
+  accounts = Account.new
+  account_hash = Hash.new{|h,k| h[k] = []}
+  accounts.importer(account_hash)
+end
+
+start
